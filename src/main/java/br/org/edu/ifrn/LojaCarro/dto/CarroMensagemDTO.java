@@ -7,8 +7,9 @@ public class CarroMensagemDTO implements Serializable {
     private String modelo;
     private Integer ano;
     private Double preco;
+    private String timestamp;
 
-    public CarroMensagemDTO() {}
+    public CarroMensagemDTO(Long id, String modelo, Integer ano, Double preco, String string) {}
 
     public CarroMensagemDTO(Long id, String modelo, Integer ano, Double preco) {
         this.id = id;
@@ -28,4 +29,7 @@ public class CarroMensagemDTO implements Serializable {
 
     public Double getPreco() { return preco; }
     public void setPreco(Double preco) { this.preco = preco; }
+
+    public String getTimestamp() { return timestamp; }
+    public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
 }

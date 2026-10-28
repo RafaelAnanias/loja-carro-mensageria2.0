@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +57,8 @@ public class CarroController {
                     savedCarro.getModelo(), savedCarro.getId(), usuario.getNome());
             logAuditoriaService.registrar(usuario, Acao.CADASTRO, "CARRO", savedCarro.getId(), "SUCESSO");
 
-            // Envia mensagem JSON para o RabbitMQ
-            CarroMensagemDTO msg = new CarroMensagemDTO(savedCarro.getId(), savedCarro.getModelo(), savedCarro.getAno(), savedCarro.getPreco());
+            // Envia mensagem JSON para o RabbitMQ com o timestamp
+            CarroMensagemDTO msg = new CarroMensagemDTO(savedCarro.getId(), savedCarro.getModelo(), savedCarro.getAno(), savedCarro.getPreco(), LocalDateTime.now().toString());
             Enviar.enviarMensagem(msg, FILA_RABBITMQ);
 
             return ResponseEntity.ok(savedCarro);
@@ -77,8 +78,8 @@ public class CarroController {
             log.info("Carro ID: {} atualizado com sucesso pelo usuário '{}'.", updatedCarro.getId(), usuario.getNome());
             logAuditoriaService.registrar(usuario, Acao.ATUALIZACAO, "CARRO", updatedCarro.getId(), "SUCESSO");
 
-            // Envia mensagem JSON para o RabbitMQ
-            CarroMensagemDTO msg = new CarroMensagemDTO(updatedCarro.getId(), updatedCarro.getModelo(), updatedCarro.getAno(), updatedCarro.getPreco());
+            // Envia mensagem JSON para o RabbitMQ com o timestamp
+            CarroMensagemDTO msg = new CarroMensagemDTO(updatedCarro.getId(), updatedCarro.getModelo(), updatedCarro.getAno(), updatedCarro.getPreco(), LocalDateTime.now().toString());
             Enviar.enviarMensagem(msg, FILA_RABBITMQ);
 
             return ResponseEntity.ok(updatedCarro);
@@ -100,10 +101,10 @@ public class CarroController {
             log.info("Carro com ID: {} excluído com sucesso pelo usuário '{}'.", id, usuario.getNome());
             logAuditoriaService.registrar(usuario, Acao.EXCLUSAO, "CARRO", id, "SUCESSO");
 
-            // Envia mensagem JSON para o RabbitMQ
+            // Envia mensagem JSON para o RabbitMQ com o timestamp
             if(carroParaDeletar.isPresent()) {
                 Carro carro = carroParaDeletar.get();
-                CarroMensagemDTO msg = new CarroMensagemDTO(carro.getId(), carro.getModelo(), carro.getAno(), carro.getPreco());
+                CarroMensagemDTO msg = new CarroMensagemDTO(carro.getId(), carro.getModelo(), carro.getAno(), carro.getPreco(), LocalDateTime.now().toString());
                 Enviar.enviarMensagem(msg, FILA_RABBITMQ);
             }
 
@@ -150,8 +151,8 @@ public class CarroController {
             log.info("Carro modelo '{}' excluído com sucesso pelo usuário '{}'.", carro.getModelo(), usuario.getNome());
             logAuditoriaService.registrar(usuario, Acao.EXCLUSAO, "CARRO", carro.getId(), "SUCESSO");
 
-            // Envia mensagem JSON para o RabbitMQ
-            CarroMensagemDTO msg = new CarroMensagemDTO(carro.getId(), carro.getModelo(), carro.getAno(), carro.getPreco());
+            // Envia mensagem JSON para o RabbitMQ com o timestamp
+            CarroMensagemDTO msg = new CarroMensagemDTO(carro.getId(), carro.getModelo(), carro.getAno(), carro.getPreco(), LocalDateTime.now().toString());
             Enviar.enviarMensagem(msg, FILA_RABBITMQ);
 
             return ResponseEntity.ok("Carro deletado: " + carro.getModelo());
@@ -177,8 +178,8 @@ public class CarroController {
             log.info("Carro modelo '{}' atualizado com novo preço: {} pelo usuário '{}'.", modelo, preco, usuario.getNome());
             logAuditoriaService.registrar(usuario, Acao.ATUALIZACAO, "CARRO", updatedCarro.getId(), "SUCESSO");
 
-            // Envia mensagem JSON para o RabbitMQ
-            CarroMensagemDTO msg = new CarroMensagemDTO(updatedCarro.getId(), updatedCarro.getModelo(), updatedCarro.getAno(), updatedCarro.getPreco());
+            // Envia mensagem JSON para o RabbitMQ com o timestamp
+            CarroMensagemDTO msg = new CarroMensagemDTO(updatedCarro.getId(), updatedCarro.getModelo(), updatedCarro.getAno(), updatedCarro.getPreco(), LocalDateTime.now().toString());
             Enviar.enviarMensagem(msg, FILA_RABBITMQ);
 
             return ResponseEntity.ok(updatedCarro);
