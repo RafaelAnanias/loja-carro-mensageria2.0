@@ -9,13 +9,14 @@ public class CarroMensagemDTO implements Serializable {
     private Double preco;
     private String timestamp;
 
-    public CarroMensagemDTO(Long id, String modelo, Integer ano, Double preco, String string) {}
+    public CarroMensagemDTO() {}
 
-    public CarroMensagemDTO(Long id, String modelo, Integer ano, Double preco) {
+    public CarroMensagemDTO(Long id, String modelo, Integer ano, Double preco, String timestamp) {
         this.id = id;
         this.modelo = modelo;
         this.ano = ano;
         this.preco = preco;
+        this.timestamp = timestamp;
     }
 
     public Long getId() { return id; }
